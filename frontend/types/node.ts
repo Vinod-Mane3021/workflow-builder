@@ -1,0 +1,1 @@
+type NodeType = "filterData" | "wait" | "convertFormat" | "sendPOSTRequest";
