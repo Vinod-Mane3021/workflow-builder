@@ -7,6 +7,7 @@ import { Braces, CircleX, FileText, Recycle } from "lucide-react";
 import NodeWrapper from "./nodeWrapper";
 import CustomTooltip from "../custom-tooltip";
 import CustomHandle from "../custom-handle";
+import { uuid } from "@/lib/utils";
 
 export const ConvertFormatNode = ({ id, data }: any) => {
   
@@ -15,8 +16,8 @@ export const ConvertFormatNode = ({ id, data }: any) => {
     <NodeWrapper icon={<Recycle className="size-4" />} label="Convert" nodeId={id}>
       <p>Convert Format Node</p>
 
-      <CustomHandle id={`${id}-convert-left`} type="target" position={Position.Left} />
-      <CustomHandle id={`${id}-convert-right`} type="source" position={Position.Right} />
+      <CustomHandle id={uuid()} type="target" position={Position.Left} />
+      <CustomHandle id={uuid()} type="source" position={Position.Right} />
     </NodeWrapper>
   );
 };

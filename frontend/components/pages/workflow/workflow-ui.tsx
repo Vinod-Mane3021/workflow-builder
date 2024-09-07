@@ -1,16 +1,8 @@
 "use client";
 
-// ui.js
 // Displays the drag-and-drop UI
-// --------------------------------------------------
 
-import {
-  useState,
-  useRef,
-  useCallback,
-  DragEventHandler,
-  DragEvent,
-} from "react";
+import { useState, useRef, useCallback, DragEvent } from "react";
 import ReactFlow, {
   Controls,
   Background,
@@ -25,11 +17,13 @@ import {
   useWorkflowStore,
   WorkflowStoreState,
 } from "@/store/use-workflow-store";
-import { FilterDataNode } from "./nodes/filter-data-node";
-import { WaitNode } from "./nodes/wait-node";
-import { ConvertFormatNode } from "./nodes/convert-format-node";
-import { SendPOSTRequestNode } from "./nodes/send-post-request-node";
-import { Button } from "./ui/button";
+import { useFirstMountState, useMountedState } from "react-use";
+import { FilterDataNode } from "@/components/nodes/filter-data-node";
+import { WaitNode } from "@/components/nodes/wait-node";
+import { ConvertFormatNode } from "@/components/nodes/convert-format-node";
+import { SendPOSTRequestNode } from "@/components/nodes/send-post-request-node";
+import { useGetWorkflow } from "@/features/workflow/api/use-get-workflow";
+import { WorkflowType } from "@/types";
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
@@ -53,14 +47,24 @@ const selector = (state: WorkflowStoreState) => ({
   deleteNode: state.deleteNode,
   deleteEdge: state.deleteEdge,
   nodeIDs: state.nodeIDs,
+  addNodesAndEdges: state.addNodesAndEdges,
 });
 
-export const WorkflowUI = () => {
+
+type Props = {
+  type: "create" | "update";
+  id?: string;
+};
+
+export const WorkflowUI = ({ id, type }: Props) => {
+  
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<
     any,
     any
   > | null>(null);
+
+
   const {
     nodes,
     edges,
@@ -69,10 +73,6 @@ export const WorkflowUI = () => {
     onNodesChange,
     onEdgesChange,
     onConnect,
-    updateNodeField,
-    deleteNode,
-    deleteEdge,
-    nodeIDs,
   } = useWorkflowStore(selector, shallow);
 
   const getInitNodeData = (nodeID: string, type: string) => {
@@ -130,7 +130,10 @@ export const WorkflowUI = () => {
   }, []);
 
   return (
-    <div className="w-[98vw] h-[81vh] relative pt-2 pl-2" ref={reactFlowWrapper}>
+    <div
+      className="w-[98vw] h-[81vh] relative pt-2 pl-2"
+      ref={reactFlowWrapper}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}

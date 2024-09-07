@@ -11,6 +11,7 @@ import {
   NodeChange,
 } from "reactflow";
 import { createWithEqualityFn } from "zustand/traditional";
+import { v4 as uuid } from "uuid";
 
 /**
  * WorkflowStoreState defines the structure of the Zustand store for managing
@@ -21,6 +22,8 @@ export interface WorkflowStoreState {
   nodes: Node[]; // Array of nodes in the workflow
   edges: Edge[]; // Array of edges connecting nodes in the workflow
   nodeIDs: Record<string, number>; // Record for storing and generating unique IDs for nodes by type
+
+  addNodesAndEdges: (nodes: Node[], edges: Edge[]) => void;
 
   /**
    * Generates a unique ID for a new node based on its type.
@@ -77,76 +80,95 @@ export interface WorkflowStoreState {
 /**
  * Creates a Zustand store for managing the state of a workflow editor.
  */
-export const useWorkflowStore = createWithEqualityFn<WorkflowStoreState>((set, get) => ({
-  nodes: [],
-  edges: [],
-  nodeIDs: {},
+export const useWorkflowStore = createWithEqualityFn<WorkflowStoreState>(
+  (set, get) => ({
+    nodes: [],
+    edges: [],
+    nodeIDs: {},
 
-  getNodeID: (type: string) => {
-    const newIDs = { ...get().nodeIDs };
-    if (newIDs[type] === undefined) {
-      newIDs[type] = 0;
-    }
-    newIDs[type] += 1;
-    set({ nodeIDs: newIDs });
-    return `${type}-${newIDs[type]}`;
-  },
-
-  addNode: (node: Node) => {
-    set({
-      nodes: [...get().nodes, node],
-    });
-  },
-
-  onNodesChange: (changes: NodeChange[]) => {
-    set({
-      nodes: applyNodeChanges(changes, get().nodes),
-    });
-  },
-
-  onEdgesChange: (changes: EdgeChange[]) => {
-    set({
-      edges: applyEdgeChanges(changes, get().edges),
-    });
-  },
-
-  onConnect: (connection: Connection) => {
-    set({
-      edges: addEdge(
-        {
-          ...connection,
-          type: "smoothstep",
-          animated: true,
-          markerEnd: { type: MarkerType.Arrow, height: 20, width: 20 },
-        },
-        get().edges
-      ),
-    });
-  },
-
-  updateNodeField: (nodeId: string, fieldName: string, fieldValue: any) => {
-    set({
-      nodes: get().nodes.map((node) => {
-        if (node.id === nodeId) {
-          node.data = { ...node.data, [fieldName]: fieldValue };
+    addNodesAndEdges: (nodes: Node[], edges: Edge[]) => {
+      // Only update if nodes or edges have changed to prevent infinite loop
+      set((state) => {
+        if (
+          JSON.stringify(state.nodes) !== JSON.stringify(nodes) ||
+          JSON.stringify(state.edges) !== JSON.stringify(edges)
+        ) {
+          return { 
+            nodes,
+            edges 
+          };
         }
-        return node;
-      }),
-    });
-  },
+        return state;
+      });
+    },
 
-  deleteNode: (nodeId: string) => {
-    set({
-      nodes: get().nodes.filter((node) => node.id !== nodeId),
-      edges: get().edges.filter(
-        (edge) => edge.source !== nodeId && edge.target !== nodeId
-      ),
-    });
-  },
+    getNodeID: (type: string) => {
+      const newIDs = { ...get().nodeIDs };
+      if (newIDs[type] === undefined) {
+        newIDs[type] = 0;
+      }
+      newIDs[type] += 1;
+      set({ nodeIDs: newIDs });
+      // return `${type}-${newIDs[type]}`;
+      return uuid();
+    },
 
-  deleteEdge: (edgeId: string) => {
-    set({
-      edges: get().edges.filter((edge) => edge.id !== edgeId),
-    });
-  },
-}));
+    addNode: (node: Node) => {
+      set({
+        nodes: [...get().nodes, node],
+      });
+    },
+
+    onNodesChange: (changes: NodeChange[]) => {
+      set({
+        nodes: applyNodeChanges(changes, get().nodes),
+      });
+    },
+
+    onEdgesChange: (changes: EdgeChange[]) => {
+      set({
+        edges: applyEdgeChanges(changes, get().edges),
+      });
+    },
+
+    onConnect: (connection: Connection) => {
+      set({
+        edges: addEdge(
+          {
+            ...connection,
+            type: "smoothstep",
+            animated: true,
+            markerEnd: { type: MarkerType.Arrow, height: 20, width: 20 },
+          },
+          get().edges
+        ),
+      });
+    },
+
+    updateNodeField: (nodeId: string, fieldName: string, fieldValue: any) => {
+      set({
+        nodes: get().nodes.map((node) => {
+          if (node.id === nodeId) {
+            node.data = { ...node.data, [fieldName]: fieldValue };
+          }
+          return node;
+        }),
+      });
+    },
+
+    deleteNode: (nodeId: string) => {
+      set({
+        nodes: get().nodes.filter((node) => node.id !== nodeId),
+        edges: get().edges.filter(
+          (edge) => edge.source !== nodeId && edge.target !== nodeId
+        ),
+      });
+    },
+
+    deleteEdge: (edgeId: string) => {
+      set({
+        edges: get().edges.filter((edge) => edge.id !== edgeId),
+      });
+    },
+  })
+);

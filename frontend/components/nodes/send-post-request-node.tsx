@@ -7,6 +7,7 @@ import { Label } from "../ui/label";
 import { MdOutlineOutput } from "react-icons/md";
 import { Send } from "lucide-react";
 import CustomHandle from "../custom-handle";
+import { uuid } from "@/lib/utils";
 
 export const SendPOSTRequestNode = ({ id, data }: any) => {
   
@@ -20,8 +21,8 @@ export const SendPOSTRequestNode = ({ id, data }: any) => {
       <p>Send POST Request Node</p>
 
 
-      <CustomHandle id={`${id}-send-left`} type="target" position={Position.Left} />
-      <CustomHandle id={`${id}-send-right`} type="source" position={Position.Right} />
+      <CustomHandle id={uuid()} type="target" position={Position.Left} />
+      <CustomHandle id={uuid()} type="source" position={Position.Right} />
     </NodeWrapper>
   );
 };

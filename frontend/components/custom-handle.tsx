@@ -1,8 +1,9 @@
+import { v4 as uuid } from "uuid";
 import React, { CSSProperties } from "react";
 import { Handle, HandleType, Position } from "reactflow";
 
 type CustomHandle = {
-  id: string;
+  id?: string;
   type: HandleType;
   position: Position;
   style?: CSSProperties;
@@ -13,7 +14,7 @@ const CustomHandle = ({ id, type, position, style }: CustomHandle) => {
     <Handle
       type={type}
       position={position}
-      id={id}
+      // id={uuid()}
       style={{
         ...style,
         fontSize: 90,

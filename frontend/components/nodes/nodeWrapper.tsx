@@ -25,7 +25,7 @@ const NodeWrapper = ({ children, label, icon, className, nodeId }: NodeWrapper) 
     const isConfirm = await confirm();
     if (isConfirm) {
       deleteNode(nodeId);
-      toast.success("Toast deleted");
+      toast.success("Node deleted");
     }
   };
 

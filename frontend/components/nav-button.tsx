@@ -10,8 +10,8 @@ const NavButton = ({ href, label, icon, isActive }: NavButtonProps) => {
       size="sm"
       variant="outline"
       className={cn(
-        "w-full lg:w-auto gap-2 justify-between font-normal hover:bg-white/20 hover:text-white border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-white focus:bg-white/30 transition",
-        isActive ? "bg-white/10 text-white" : "bg-transparent" 
+        "w-full lg:w-auto gap-2 justify-between font-normal hover:bg-primary/20 hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-primary focus:bg-primary/30 transition duration-300",
+        isActive ? "bg-primary/10 text-primary" : "bg-transparent" 
       )}
     >
       <span className='size-4'>{icon}</span>
