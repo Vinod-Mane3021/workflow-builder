@@ -26,32 +26,45 @@ This project features creating, managing, and visualizing different types of nod
 - **Dynamic Node Creation**: Add new nodes of various types easily by dragging and dropping
 - **Interactive Connections**: Nodes can be connected with interactive edges to another node
 - **Customizable Styles**: Nodes and handles can be styled and customized
+- **Manage Workflow**: create, read and update workflows
 
 
 ## 🧑‍💻 Tech Stack
 
+
 - ⚛️ [React](https://reactjs.org/): UI library for building user interfaces.
+- ⬜ [Next.js](https://nextjs.org/): React framework for server-side rendering and static site generation.
 - 💨 [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.
 - 💎 [Shadcn UI](https://shadcn.dev/): UI components for React with a focus on accessibility.
+- <span style="background-color:#1e90ff;color:white;padding:1px 3px;border-radius:3px;font-size:0.7em;margin-left:3px;">TS</span> [TypeScript](https://www.typescriptlang.org/): Superset of JavaScript adding static types.
+- 🔥 [ExpressJS](https://honojs.dev/): web framework for building APIs.
+- 🛠️ [Zod](https://zod.dev/): Schema validation for TypeScript and JavaScript.
 - 🐻 [Zustand](https://zustand-demo.pmnd.rs/): Lightweight state management for React.
-- 🚀 [Vercel](https://vercel.com/): Platform for frontend deployment and serverless functions.
-- 🏃‍♂️‍➡️ [fastapi](https://fastapi.tiangolo.com/): used fastapi for backend, building APIs with Python
-
-
+- 🟪 [Prisma](https://www.prisma.io/): ORM for TypeScript and Node.js with a focus on type safety.
+- 🌐 [Neon Database](https://neon.tech/): Serverless PostgreSQL database.
+- 🐘 [PostgreSQL](https://www.postgresql.org/): Open-source relational database system.
+- 🎣 [Tanstack React Query](https://react-query.tanstack.com/): Data fetching and synchronization for React.
 
 
 ## ⚙️ Local setup
 
-1. Install dependencies:
+1. Clone this repository:
     ```bash
-    npm install
+    $ git clone https://github.com/Vinod-Mane3021/workflow-builder.git
     ```
+2. Backend
+      ```bash
+      $ cd backend
+      $ pnpm install 
+      $ pnpm start
+      ```
 
-2. Start the development server:
+3. Frontend
     ```bash
-    npm start
+    $ cd frontend
+    $ pnpm install 
+    $ pnpm run dev
     ```
-
 
 
 ## ****📄 Feedback****
@@ -64,4 +77,10 @@ I'd be happy to connect with you! <br>
 <a href="https://x.com/VinodMane21" target="_blank">
   <img height="27" src="https://img.shields.io/twitter/follow/VinodMane21?logoSize=100" alt="Twitter Badge" />
 </a>
+
+## ****📄 Screenshots****
+
+- ![Workflow Page](./assets/screenshots/Screenshot2.png)
+
+- ![Editor](./assets/screenshots/Screenshot1.png)
 

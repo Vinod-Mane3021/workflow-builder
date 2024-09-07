@@ -1,6 +1,7 @@
 import Navigation from "./navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { Blocks } from "lucide-react";
 
 const Header = () => {
   return (
@@ -11,6 +12,7 @@ const Header = () => {
             {/* logo */}
             <Link href="/">
               <div className="items-center hidden lg:flex">
+                <Blocks className="text-primary size-7" />
                 <p className="font-semibold text-primary text-2xl ml-2.5">
                   Workflow Builder
                 </p>
