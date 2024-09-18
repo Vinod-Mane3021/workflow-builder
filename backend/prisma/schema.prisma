@@ -18,6 +18,7 @@ model Node {
   type     String
   position Json
   data     Json
+  connectionOrder Int
 
   workflowId String
   workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)

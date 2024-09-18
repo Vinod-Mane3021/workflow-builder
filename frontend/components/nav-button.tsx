@@ -14,7 +14,7 @@ const NavButton = ({ href, label, icon, isActive }: NavButtonProps) => {
         isActive ? "bg-primary/10 text-primary" : "bg-transparent" 
       )}
     >
-      <span className='size-4'>{icon}</span>
+      <span className='size-4 text-black'>{icon}</span>
       <Link href={href}>{label}</Link>
     </Button>
   );

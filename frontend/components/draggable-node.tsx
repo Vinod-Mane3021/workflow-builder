@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
 import { ComponentType, DragEvent } from "react";
 import { NodeTypes } from "reactflow";
+import { CustomNodeType } from "@/types/node";
 
 type DraggableNodeType = {
-  type: NodeType;
+  type: CustomNodeType;
   label: string;
   icon: JSX.Element;
 };

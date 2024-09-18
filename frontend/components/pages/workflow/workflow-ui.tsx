@@ -24,6 +24,9 @@ import { ConvertFormatNode } from "@/components/nodes/convert-format-node";
 import { SendPOSTRequestNode } from "@/components/nodes/send-post-request-node";
 import { useGetWorkflow } from "@/features/workflow/api/use-get-workflow";
 import { WorkflowType } from "@/types";
+import { StartNode } from "@/components/nodes/start";
+import { EndNode } from "@/components/nodes/end";
+import { CustomEdge } from "@/components/nodes/custom-edge";
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
@@ -33,7 +36,13 @@ const nodeTypes = {
   wait: WaitNode,
   convertFormat: ConvertFormatNode,
   sendPOSTRequest: SendPOSTRequestNode,
+  start: StartNode,
+  end: EndNode
 };
+
+const edgeTypes = {
+  'custom-edge': CustomEdge
+}
 
 const selector = (state: WorkflowStoreState) => ({
   nodes: state.nodes,
@@ -143,6 +152,7 @@ export const WorkflowUI = ({ id, type }: Props) => {
         onDrop={onDrop}
         onDragOver={onDragOver}
         onInit={setReactFlowInstance}
+        // edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
         proOptions={proOptions}
         snapGrid={[gridSize, gridSize]}
@@ -155,3 +165,6 @@ export const WorkflowUI = ({ id, type }: Props) => {
     </div>
   );
 };
+
+
+

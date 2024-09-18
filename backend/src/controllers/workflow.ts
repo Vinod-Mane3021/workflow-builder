@@ -190,17 +190,23 @@ export const getWorkflow = asyncHandler(async (req: Request, res: Response) => {
 export const executeWorkflow = asyncHandler(
   async (req: Request, res: Response) => {
     const { id: workflowId } = req.params;
-    const file = req.file
+    const file = req.file;
 
     if (!workflowId || !file) {
-      return res
-        .status(400)
-        .json({ error: "Workflow ID and file are required" });
+      return new ApiResponse(res, {
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        status: HttpStatus.INVALID_INPUTS,
+        message: "Workflow ID and file are required",
+      });
     }
 
     const workflow = await getWorkflowByIdService(workflowId);
     if (!workflow) {
-      return res.status(404).json({ error: "Workflow not found" });
+      return new ApiResponse(res, {
+        statusCode: HttpStatusCode.NOT_FOUND,
+        status: HttpStatus.NOT_FOUND,
+        message: "Workflow not found",
+      });
     }
 
     const filePath = file.path;
@@ -212,10 +218,9 @@ export const executeWorkflow = asyncHandler(
       dynamicTyping: true,
       skipEmptyLines: true,
       complete: async (result) => {
-        console.log({result: result.data})
+        // console.log({ result: result.data });
         try {
-          const dataRows = result.data;
-          let inputData = dataRows;
+          console.log("workflow.nodes " + workflow.nodes.length);
 
           for (const [index, node] of workflow.nodes.entries()) {
             // Notify frontend that the node execution is about to start
@@ -224,24 +229,45 @@ export const executeWorkflow = asyncHandler(
               status: "about_to_start",
             });
 
-            const response = await executeWorkflowService(node.type, result.data);
-
             // Notify frontend that the node is executing
             socketio.emit("nodeStatus", {
               nodeId: node.id,
               status: "executing",
             });
 
-            // Notify frontend that the node execution is completed
-            socketio.emit("nodeStatus", {
-              nodeId: node.id,
-              status: "completed",
+            const response = await executeWorkflowService(
+              node.type,
+              result.data
+            );
+
+            if (response == "ok") {
+              // Notify frontend that the node execution is completed
+              socketio.emit("nodeStatus", {
+                nodeId: node.id,
+                totalSteps: workflow.nodes.length,
+                currentStep: index + 1,
+                status: "completed",
+              });
+            }
+
+            console.log({
+              totalSteps: workflow.nodes.length,
+              currentStep: index + 1,
             });
           }
-          res.json({ success: true, data: inputData });
+
+          return new ApiResponse(res, {
+            statusCode: HttpStatusCode.OK,
+            status: HttpStatus.SUCCESS,
+            message: "Workflow execution is successfully completed",
+          });
         } catch (err) {
           console.error("Error executing workflow:", err);
-          res.status(500).json({ error: "Error executing workflow" });
+          return new ApiResponse(res, {
+            statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+            status: HttpStatus.SERVER_ERROR,
+            message: "Error executing workflow",
+          });
         } finally {
           fs.unlinkSync(filePath);
         }

@@ -15,3 +15,11 @@ export const exitWorkflowProps: UseConfirmTypes = {
   confirmButtonLabel: "Yes, exit",
   type: "alert",
 };
+
+
+export const fileUploadProps: UseConfirmTypes = {
+  title: "Upload File and execute workflow?",
+  message: "You have to upload 1 csv file to execute workflow",
+  confirmButtonLabel: "Yes, Execute",
+  type: "default",
+};

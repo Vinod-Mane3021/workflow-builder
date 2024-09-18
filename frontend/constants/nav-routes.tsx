@@ -6,7 +6,7 @@ export const navRoutes = [
     id: 1,
     href: "/",
     label: "Home",
-    icon: <House className='h-full w-full'/>
+    icon: <House className='h-full w-full' />
   },
   {
     id: 2,

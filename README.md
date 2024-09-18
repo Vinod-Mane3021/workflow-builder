@@ -1,6 +1,6 @@
 
 <div align="center">
-  <h2 style="font-family: 'Georgia', serif; font-weight: bold; font-size: 2rem; color: #FFE5CA;" align="center">Node Manager</h2>
+  <h2 style="font-family: 'Georgia', serif; font-weight: bold; font-size: 2rem; color: #FFE5CA;" align="center">Workflow Builder</h2>
 </div>
 
 

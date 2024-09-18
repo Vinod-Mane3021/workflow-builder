@@ -1,11 +1,14 @@
+import { uuid } from "@/lib/utils";
 import { ApiResponseType, GetWorkflowType } from "@/types/index";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useGetWorkflow = (id?: string) => {
   const query = useQuery({
-    queryKey: ["get-workflow"],
+    queryKey: ["get-workflow", id],
     queryFn: async () => {
+
+      console.log({useGetWorkflowId: id})
 
       if (!id) {
         throw new Error("Failed to fetch workflow data");;
@@ -23,6 +26,9 @@ export const useGetWorkflow = (id?: string) => {
         //   throw new Error("Failed to fetch workflow data");
       }
     },
+    
   });
   return query;
 };
+
+

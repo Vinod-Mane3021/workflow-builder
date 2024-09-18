@@ -11,15 +11,7 @@ type InputNodeProps = {
 };
 
 export const FilterDataNode = ({ id, data }: InputNodeProps) => {
-  const [currName, setCurrName] = useState(
-    data?.inputName || id.replace("customInput-", "input_")
-  );
-  const [inputType, setInputType] = useState(data.inputType || "Text");
-
-  const handleNameChange = (e: any) => {
-    setCurrName(e.target.value);
-  };
-
+ 
   return (
     <NodeWrapper
       icon={<ArrowDownWideNarrow className="size-4" />}

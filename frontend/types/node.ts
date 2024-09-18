@@ -1,1 +1,1 @@
-type NodeType = "filterData" | "wait" | "convertFormat" | "sendPOSTRequest";
+export type CustomNodeType = "start" | "end" | "filterData" | "wait" | "convertFormat" | "sendPOSTRequest";

@@ -1,20 +1,19 @@
 "use client";
 
-import {
-  ArrowDownWideNarrow,
-  Loader,
-  Recycle,
-  Send,
-} from "lucide-react";
+import { ArrowDownWideNarrow, CalendarCheck2, CirclePlay, Loader, Recycle, Send } from "lucide-react";
 import { DraggableNode } from "./draggable-node";
 import Navigation from "./navigation";
 import { Button } from "./ui/button";
 
 export const WorkflowToolbar = () => {
-
   return (
     <div className="shadow-md px-2 flex justify-between items-center py-2">
       <div className="flex flex-row items-center gap-x-2  ">
+        <DraggableNode
+          type="start"
+          label="Start"
+          icon={<CirclePlay className="size-3 md:size-4" />}
+        />
         <DraggableNode
           type="filterData"
           label="Filter"
@@ -34,6 +33,11 @@ export const WorkflowToolbar = () => {
           type="sendPOSTRequest"
           label="Send"
           icon={<Send className="size-3 md:size-4" />}
+        />
+        <DraggableNode
+          type="end"
+          label="End"
+          icon={<CalendarCheck2 className="size-3 md:size-4" />}
         />
       </div>
     </div>

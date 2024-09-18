@@ -15,7 +15,7 @@ const server = http.createServer(app);
 // Set up Socket.io with the HTTP server
 export const socketio = new Server(server, {
   cors: {
-    origin: Keys.cors, // Adjust this based on your CORS settings
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true
   }

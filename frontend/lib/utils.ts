@@ -13,7 +13,7 @@ export function formatBytes(
     decimals?: number
     sizeType?: "accurate" | "normal"
   } = {}
-) {
+): string {
   const { decimals = 0, sizeType = "normal" } = opts
 
   const sizes = ["Bytes", "KB", "MB", "GB", "TB"]

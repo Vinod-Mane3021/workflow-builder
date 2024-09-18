@@ -11,6 +11,7 @@ export const NodeSchema = z.object({
     id: z.string(),
     nodeType: z.string(),
   }),
+  connectionOrder: z.number(),
 });
 
 export const EdgeSchema = z.object({

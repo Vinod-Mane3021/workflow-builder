@@ -3,6 +3,7 @@ import { db } from "../../src/config/prisma-client";
 import papaparse from 'papaparse'
 import fs from 'fs'
 import path from 'path';
+import { socketio } from "index";
 
 // const nodes = [
 //   {
@@ -140,31 +141,16 @@ export const getWorkflowByIdService = async (id: string) => {
       id,
     },
     include: {
-      nodes: true,
+      nodes: {
+        orderBy: {
+          connectionOrder: "asc"
+        }
+      },
       edges: true,
     },
   });
 
   return data;
-};
-
-export type WorkflowNodeType =
-  | "filterData"
-  | "wait"
-  | "convertFormat"
-  | "sendPOSTRequest";
-
-export interface WorkflowNode {
-  id: string;
-  type: string;
-  position: Object;
-  data: Object;
-  workflowId: string;
-}
-
-export type Workflow = {
-  id: string;
-  nodes: WorkflowNode[];
 };
 
 export type DataRow = {
@@ -175,15 +161,23 @@ export async function executeWorkflowService(
   nodeType: string,
   fileData: any
 ): Promise<"ok" | "error"> {
+
   switch (nodeType) {
+    case "start": 
+      return await wait(1000)
     case "filterData":
+      await wait(1000)
       return await filterData(fileData);
     case "wait":
       return await wait(6000);
     case "convertFormat":
+      await wait(1000)
       return await convertFormat(fileData);
     case "sendPOSTRequest":
+      await wait(1000)
       return await sendPostRequest(fileData);
+    case "end": 
+      return await wait(1000)
     default:
       throw new Error(`Unknown node type: ${nodeType}`);
   }
@@ -199,8 +193,6 @@ async function filterData(fileData: any): Promise<"ok" | "error"> {
       });
       return newRow;
     });
-
-    // Perform further actions such as saving the modified data if needed
     console.log("Filtered data:", modifiedData);
     return "ok";
   } catch (error) {

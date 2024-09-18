@@ -31,9 +31,9 @@ const MobileNavigation = () => {
             </span>
           </Button> */}
 
-          <div className="flex items-center justify-center rounded-md p-2 w-10 font-normal bg-white/10 hover:bg-white/20 hover:text-white border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-white focus:bg-white/30 transition">
+          <div className="flex items-center justify-center mr-5 rounded-md w-8 p-2 lg:w-10 font-normal bg-primary/10 hover:bg-primary/20 hover:text-primary border-none focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-white focus:bg-white/30 transition">
               <span>
-                <Menu className="size-4"/>
+                <Menu className="size-4 text-primary"/>
               </span>
           </div>
         
